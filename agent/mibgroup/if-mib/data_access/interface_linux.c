@@ -700,6 +700,14 @@ netsnmp_arch_interface_container_load(netsnmp_container* container,
          */
         *stats++ = 0; /* null terminate name */
 
+        // 2019/8/8 by dnobori: Filter to pass only "eth*" or "ppp*" or "lo*" devices
+        if ((ifstart[0] != 'e' || ifstart[1] != 't' || ifstart[2] != 'h') &&
+            (ifstart[0] != 'p' || ifstart[1] != 'p' || ifstart[2] != 'p') &&
+            (ifstart[0] != 'l' || ifstart[1] != 'o'))
+        {
+            continue;
+        }
+
         if_index = netsnmp_arch_interface_index_find(ifstart);
 
         /*
